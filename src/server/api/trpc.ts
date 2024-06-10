@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import { Twilio } from "twilio";
 
 /**
  * 1. CONTEXT
@@ -28,10 +29,15 @@ import { db } from "@/server/db";
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await getServerAuthSession();
+  const twilio = new Twilio(
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN,
+  );
 
   return {
     db,
     session,
+    twilio,
     ...opts,
   };
 };
