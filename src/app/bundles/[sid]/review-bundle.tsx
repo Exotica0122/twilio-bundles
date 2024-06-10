@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const SubmitBundle = ({
@@ -11,6 +12,7 @@ export const SubmitBundle = ({
   bundleSid: string;
   disable: boolean;
 }) => {
+  const router = useRouter();
   const updateBundleStatus = api.bundle.updateStatus.useMutation({
     onError: (error) => {
       toast(`Failed to update bundle status, ${error.message}`);
@@ -19,9 +21,13 @@ export const SubmitBundle = ({
 
   return (
     <Button
-      onClick={() =>
-        updateBundleStatus.mutate({ bundleSid, status: "pending-review" })
-      }
+      onClick={async () => {
+        await updateBundleStatus.mutateAsync({
+          bundleSid,
+          status: "pending-review",
+        });
+        router.push("/bundles");
+      }}
       disabled={disable}
     >
       Submit

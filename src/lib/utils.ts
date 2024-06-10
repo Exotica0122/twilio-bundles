@@ -11,3 +11,10 @@ export function snakeCaseToStartCase(string: string) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
+
+export function kebabCaseToStartCase(string: string) {
+  return string
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}

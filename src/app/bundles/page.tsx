@@ -30,6 +30,7 @@ import { ListFilter, File } from "lucide-react";
 import Link from "next/link";
 import { ActionDropdown } from "./action-dropdown";
 import { CreateBundleModal } from "@/components/create-bundle-modal";
+import { kebabCaseToStartCase } from "@/lib/utils";
 
 export default async function Bundles() {
   const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
@@ -134,7 +135,7 @@ export default async function Bundles() {
                       <TableCell className="hidden md:table-cell">
                         <Badge variant="outline">
                           <span className="text-nowrap capitalize">
-                            {bundle.status}
+                            {kebabCaseToStartCase(bundle.status)}
                           </span>
                         </Badge>
                       </TableCell>

@@ -53,7 +53,10 @@ export default async function BundleDetails({
           <AddressCard bundleSid={bundle.sid} address={address} />
           <NotificationsCard />
         </div>
-        <SubmitBundle bundleSid={bundle.sid} disable={!endUser || !address} />
+        <SubmitBundle
+          bundleSid={bundle.sid}
+          disable={bundle.status !== "draft" || !endUser || !address}
+        />
       </div>
     </>
   );
