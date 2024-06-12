@@ -1,5 +1,4 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
-import { postRouter } from "@/server/api/routers/post";
 import { bundleRouter } from "./routers/bundle";
 import { regulationRouter } from "./routers/regulation";
 import { endUserRouter } from "./routers/endUser";
@@ -7,6 +6,7 @@ import { endUserTypeRouter } from "./routers/endUserType";
 import { itemAssignmentRouter } from "./routers/itemAssignment";
 import { addressRouter } from "./routers/address";
 import { supportingDocumentRouter } from "./routers/supportingDocument";
+import { phoneNumbersRouter } from "./routers/phone-numbers";
 
 /**
  * This is the primary router for your server.
@@ -14,7 +14,6 @@ import { supportingDocumentRouter } from "./routers/supportingDocument";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   bundle: bundleRouter,
   regulation: regulationRouter,
   endUser: endUserRouter,
@@ -22,6 +21,7 @@ export const appRouter = createTRPCRouter({
   itemAssignment: itemAssignmentRouter,
   address: addressRouter,
   supportingDocument: supportingDocumentRouter,
+  phoneNumber: phoneNumbersRouter,
 });
 
 // export type definition of API

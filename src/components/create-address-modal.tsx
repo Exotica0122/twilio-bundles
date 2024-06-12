@@ -1,6 +1,5 @@
 "use client";
 
-import type { TCountries } from "countries-list";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -36,6 +35,7 @@ import { api } from "@/trpc/react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { countryMap } from "@/lib/utils";
 
 const formSchema = z.object({
   customerName: z.string().min(2, {
@@ -59,22 +59,7 @@ const formSchema = z.object({
 });
 type FormSchema = z.infer<typeof formSchema>;
 
-export const CreateAddressModal = ({
-  bundleSid,
-  countries,
-}: {
-  bundleSid: string;
-  countries: TCountries;
-}) => {
-  const countryCodes = Object.keys(countries).sort();
-  const countryMap = countryCodes
-    .map((code) => ({
-      code,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      name: countries[code].name as string,
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-
+export const CreateAddressModal = ({ bundleSid }: { bundleSid: string }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const createAddress = api.address.createAddress.useMutation({

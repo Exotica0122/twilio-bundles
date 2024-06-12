@@ -1,6 +1,5 @@
 import { CreateAddressModal } from "@/components/create-address-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { countries } from "countries-list";
 import type { AddressInstance } from "twilio/lib/rest/api/v2010/account/address";
 
 export const AddressCard = ({
@@ -26,7 +25,7 @@ export const AddressCard = ({
             <p className="font-light">{address.sid}</p>
           </div>
         ) : (
-          <CreateAddressModal bundleSid={bundleSid} countries={countries} />
+          <CreateAddressModal bundleSid={bundleSid} />
         )}
       </CardContent>
     </Card>

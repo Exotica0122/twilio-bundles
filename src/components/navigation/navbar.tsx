@@ -30,7 +30,9 @@ export function NavBar() {
                     href={href}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                      isActive(href) ? "bg-muted" : "text-muted-foreground",
+                      isActive(href)
+                        ? "pointer-events-none bg-muted"
+                        : "text-muted-foreground",
                     )}
                   >
                     {icon}

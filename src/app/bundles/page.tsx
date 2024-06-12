@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/trpc/server";
-import { ListFilter, File } from "lucide-react";
+import { ListFilter } from "lucide-react";
 import Link from "next/link";
 import { ActionDropdown } from "./action-dropdown";
 import { CreateBundleModal } from "@/components/create-bundle-modal";
@@ -86,14 +86,13 @@ export default async function Bundles() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Bundle Name</TableHead>
-                  <TableHead>Country</TableHead>
+                  <TableHead className="hidden sm:table-cell">
+                    Country
+                  </TableHead>
                   <TableHead className="hidden md:table-cell">
                     Type & end user
                   </TableHead>
                   <TableHead className="hidden md:table-cell">Status</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Status Details
-                  </TableHead>
                   <TableHead>
                     <span className="sr-only">Actions</span>
                   </TableHead>
@@ -114,7 +113,7 @@ export default async function Bundles() {
                           {bundle.sid}
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell">
                         {regionNames.of(regulations.isoCountry)}
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
@@ -133,9 +132,7 @@ export default async function Bundles() {
                           </span>
                         </Badge>
                       </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {/* ...Put status details here... */}
-                      </TableCell>
+
                       <TableCell>
                         <ActionDropdown bundleSid={bundle.sid} />
                       </TableCell>

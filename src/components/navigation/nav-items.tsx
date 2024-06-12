@@ -1,4 +1,13 @@
-import { Book, Home, Package, Phone, User, Users } from "lucide-react";
+import {
+  Book,
+  DollarSign,
+  Home,
+  Package,
+  Phone,
+  PhoneOff,
+  User,
+  Users,
+} from "lucide-react";
 
 export type NavGroup = {
   label: string;
@@ -46,9 +55,19 @@ export const NAV_ITEMS: NavGroup[] = [
     label: "Phone Numbers",
     items: [
       {
-        label: "Phone Numbers",
-        href: "/phone-numbers",
+        label: "Active Numbers",
+        href: "/active-numbers",
         icon: <Phone className="h-5 w-5" />,
+      },
+      {
+        label: "Released Numbers",
+        href: "/released-numbers",
+        icon: <PhoneOff className="h-5 w-5" />,
+      },
+      {
+        label: "Buy a Number",
+        href: "/buy-number",
+        icon: <DollarSign className="h-5 w-5" />,
       },
     ],
   },

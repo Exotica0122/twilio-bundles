@@ -42,7 +42,7 @@ export function ActionDropdown({ bundleSid }: { bundleSid: string }) {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
           onClick={() => deleteBundle.mutate(bundleSid)}
-          className="bg-red-500"
+          className="bg-red-500 text-white"
         >
           Delete
         </DropdownMenuItem>
