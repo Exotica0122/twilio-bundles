@@ -64,4 +64,19 @@ export const bundleRouter = createTRPCRouter({
         .update({ status: input.status });
       return bundle.toJSON();
     }),
+
+  updateNotificationsDetails: publicProcedure
+    .input(
+      z.object({
+        bundleSid: z.string(),
+        email: z.string(),
+        statusCallback: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const bundle = await ctx.twilio.numbers.v2.regulatoryCompliance
+        .bundles(input.bundleSid)
+        .update({ email: input.email, statusCallback: input.statusCallback });
+      return bundle.toJSON();
+    }),
 });

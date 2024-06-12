@@ -51,7 +51,11 @@ export default async function BundleDetails({
           />
           <BusinessInfoCard bundleSid={bundle.sid} endUser={endUser} />
           <AddressCard bundleSid={bundle.sid} address={address} />
-          <NotificationsCard />
+          <NotificationsCard
+            bundleSid={bundle.sid}
+            email={bundle.email}
+            statusCallback={bundle.statusCallback}
+          />
         </div>
         <SubmitBundle
           bundleSid={bundle.sid}

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,12 +9,68 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { api } from "@/trpc/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-export const NotificationsCard = () => {
+const formSchema = z.object({
+  email: z
+    .string()
+    .min(1, {
+      message: "Email must not be empty.",
+    })
+    .email("Please entry a valid email address."),
+  statusCallback: z.string().optional(),
+});
+type FormSchema = z.infer<typeof formSchema>;
+
+export const NotificationsCard = ({
+  bundleSid,
+  email,
+  statusCallback,
+}: {
+  bundleSid: string;
+  email: string;
+  statusCallback?: string;
+}) => {
+  const updateNotificationsDetails =
+    api.bundle.updateNotificationsDetails.useMutation({
+      onSuccess: (updatedBundle) => {
+        toast.success(`Notifications updated for ${updatedBundle.sid}`);
+      },
+      onError: (error) => {
+        toast.error(`Bundle ${bundleSid} :${error.message}`);
+      },
+    });
+
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: email,
+      statusCallback: statusCallback,
+    },
+  });
+
+  async function onSubmit(values: FormSchema) {
+    updateNotificationsDetails.mutate({
+      bundleSid,
+      ...values,
+    });
+  }
+
   return (
-    <Card x-chunk="dashboard-04-chunk-1">
+    <Card>
       <CardHeader>
         <CardTitle>Notifications</CardTitle>
         <CardDescription>
@@ -21,18 +79,55 @@ export const NotificationsCard = () => {
           emails.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-8 md:grid-cols-2">
-        <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">Email</Label>
-          <Input />
-        </div>
-        <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">Status Callback URL</Label>
-          <Input />
-        </div>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex justify-between gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Email</FormLabel>
+                  <div className="flex flex-col gap-4">
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="statusCallback"
+              render={({ field }) => (
+                <FormItem className="flex-1 flex-col">
+                  <FormLabel>Status Callback URL</FormLabel>
+                  <div className="flex flex-col gap-4">
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
       </CardContent>
       <CardFooter className="border-t px-6 py-4">
-        <Button>Save</Button>
+        <Button
+          type="submit"
+          onClick={async () => {
+            await form.trigger();
+            if (form.formState.isValid) void onSubmit(form.getValues());
+          }}
+        >
+          Save
+        </Button>
       </CardFooter>
     </Card>
   );
