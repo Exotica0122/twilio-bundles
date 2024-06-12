@@ -21,18 +21,26 @@ export function NavBar() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium">
-            {NAV_ITEMS.map(({ href, label, icon }) => (
-              <Link
-                key={label}
-                href={href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
-                  isActive(href) ? "bg-muted" : "text-muted-foreground",
+            {NAV_ITEMS.map((navItem, i) => (
+              <div key={navItem.label}>
+                <h3 className="px-2 py-2">{navItem.label}</h3>
+                {navItem.items.map(({ href, label, icon }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                      isActive(href) ? "bg-muted" : "text-muted-foreground",
+                    )}
+                  >
+                    {icon}
+                    {label}
+                  </Link>
+                ))}
+                {i < NAV_ITEMS.length - 1 && (
+                  <div className="my-3 w-full border-t border-neutral-300 dark:border-neutral-800" />
                 )}
-              >
-                {icon}
-                {label}
-              </Link>
+              </div>
             ))}
           </nav>
         </div>

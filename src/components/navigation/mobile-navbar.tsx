@@ -6,7 +6,12 @@ import { usePathname } from "next/navigation";
 import { Menu, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { NAV_ITEMS } from "./nav-items";
 import { cn } from "@/lib/utils";
 
@@ -32,18 +37,27 @@ export function MobileNavbar() {
             <span className="sr-only">Twilio Bundles</span>
           </Link>
           <div className="mt-6">
-            {NAV_ITEMS.map(({ href, label, icon }) => (
-              <Link
-                key={label}
-                href={href}
-                className={cn(
-                  "mx-[-0.65rem]  flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground",
-                  isActive(href) ? "bg-muted" : "text-muted-foreground",
+            {NAV_ITEMS.map((navItem, i) => (
+              <div key={navItem.label}>
+                <h3 className="py-2">{navItem.label}</h3>
+                {navItem.items.map(({ href, label, icon }) => (
+                  <SheetClose key={label} asChild>
+                    <Link
+                      href={href}
+                      className={cn(
+                        "mx-[-0.65rem]  flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground",
+                        isActive(href) ? "bg-muted" : "text-muted-foreground",
+                      )}
+                    >
+                      {icon}
+                      {label}
+                    </Link>
+                  </SheetClose>
+                ))}
+                {i < NAV_ITEMS.length - 1 && (
+                  <div className="my-3 w-full border-t border-neutral-300 dark:border-neutral-800" />
                 )}
-              >
-                {icon}
-                {label}
-              </Link>
+              </div>
             ))}
           </div>
         </nav>
