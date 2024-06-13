@@ -108,7 +108,7 @@ export default async function EndUsers() {
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              {endUsers.map(async (endUser) => {
+              {endUsers.map((endUser) => {
                 return (
                   <TableBody key={endUser.sid}>
                     <TableRow>

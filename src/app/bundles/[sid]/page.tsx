@@ -47,6 +47,7 @@ export default async function BundleDetails({
             friendlyName={bundle.friendlyName}
             isoCountry={regulation.isoCountry}
             numberType={regulation.numberType}
+            validUntil={bundle.validUntil}
             endUserType={regulation.endUserType}
           />
           <BusinessInfoCard bundleSid={bundle.sid} endUser={endUser} />

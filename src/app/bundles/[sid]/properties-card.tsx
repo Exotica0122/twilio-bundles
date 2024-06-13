@@ -33,12 +33,14 @@ export const PropertiesCard = ({
   isoCountry,
   numberType,
   endUserType,
+  validUntil,
 }: {
   bundle_sid: string;
   friendlyName: string;
   isoCountry: string;
   numberType: string;
   endUserType: string;
+  validUntil: Date | null;
 }) => {
   const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
   const router = useRouter();
@@ -97,20 +99,27 @@ export const PropertiesCard = ({
           </form>
         </Form>
         <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">Country</Label>
+          <Label>Country</Label>
           <p className="font-light">{regionNames.of(isoCountry)}</p>
         </div>
         <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">SID for provisioning numbers</Label>
+          <Label>SID for provisioning numbers</Label>
           <p className="font-light">{bundle_sid}</p>
         </div>
-        <div className="hidden flex-col space-y-4 md:flex" />
+        <div className="hidden flex-col space-y-4 md:flex">
+          {validUntil && (
+            <>
+              <Label>Valid Until</Label>
+              <p className="font-light">{validUntil.toLocaleString()}</p>
+            </>
+          )}
+        </div>
         <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">Number type</Label>
+          <Label>Number type</Label>
           <p className="font-light capitalize">{numberType}</p>
         </div>
         <div className="flex flex-col space-y-4">
-          <Label htmlFor="terms">End-User type</Label>
+          <Label>End-User type</Label>
           <p className="font-light capitalize">{endUserType}</p>
         </div>
       </CardContent>

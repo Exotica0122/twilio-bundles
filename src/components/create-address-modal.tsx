@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { countryMap } from "@/lib/utils";
+import { LoadingSpinner } from "./loading-spinner";
 
 const formSchema = z.object({
   customerName: z.string().min(2, {
@@ -93,6 +94,8 @@ export const CreateAddressModal = ({ bundleSid }: { bundleSid: string }) => {
   });
 
   async function onSubmit(values: FormSchema) {
+    setOpen(false);
+
     // Create address
     const address = await createAddress.mutateAsync(values);
 
@@ -127,7 +130,6 @@ export const CreateAddressModal = ({ bundleSid }: { bundleSid: string }) => {
       `Address created: ${address.sid} with assignments: ${businessAddressItemAssignment.sid} and ${emergencyAddressItemAssignment.sid}.`,
     );
     router.refresh();
-    setOpen(false);
   }
 
   return (
@@ -252,15 +254,19 @@ export const CreateAddressModal = ({ bundleSid }: { bundleSid: string }) => {
               Close
             </Button>
           </DialogClose>
-          <Button
-            type="submit"
-            onClick={async () => {
-              await form.trigger();
-              if (form.formState.isValid) void onSubmit(form.getValues());
-            }}
-          >
-            Submit
-          </Button>
+          {form.formState.isSubmitting ? (
+            <LoadingSpinner />
+          ) : (
+            <Button
+              type="submit"
+              onClick={async () => {
+                await form.trigger();
+                if (form.formState.isValid) void onSubmit(form.getValues());
+              }}
+            >
+              Submit
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

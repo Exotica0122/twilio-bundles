@@ -9,6 +9,11 @@ export const addressRouter = createTRPCRouter({
       return address;
     }),
 
+  getAddresses: publicProcedure.query(async ({ ctx }) => {
+    const addresses = await ctx.twilio.addresses.list({ limit: 20 });
+    return addresses;
+  }),
+
   createAddress: publicProcedure
     .input(
       z.object({

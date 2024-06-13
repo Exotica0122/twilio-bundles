@@ -16,7 +16,6 @@ import {
   Printer,
   SearchIcon,
 } from "lucide-react";
-import Link from "next/link";
 import { CountrySelect } from "./country-select";
 
 export default async function PhoneNumbers() {
@@ -41,13 +40,11 @@ export default async function PhoneNumbers() {
           <Button size="sm" variant="outline" className="h-8 gap-1">
             Reset Filters
           </Button>
-          <Button size="sm" className="h-8 gap-1" asChild>
-            <Link href="/bundles/create">
-              <SearchIcon className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Search
-              </span>
-            </Link>
+          <Button size="sm" className="h-8 gap-1">
+            <SearchIcon className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Search
+            </span>
           </Button>
         </div>
       </div>
