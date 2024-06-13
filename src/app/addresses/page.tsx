@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getCountryName } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { ListFilter, File, PlusCircle } from "lucide-react";
 import Link from "next/link";
@@ -122,7 +123,9 @@ export default async function Addresses() {
                           {address.sid}
                         </div>
                       </TableCell>
-                      <TableCell>{address.isoCountry}</TableCell>
+                      <TableCell>
+                        {getCountryName(address.isoCountry)}
+                      </TableCell>
                       <TableCell>
                         <span className="capitalize">
                           {address.street}, {address.region}, {address.city},{" "}

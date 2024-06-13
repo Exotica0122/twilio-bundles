@@ -30,3 +30,9 @@ export const countryMap = countryCodes
     name: countries[code].name as string,
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
+
+export const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+
+export const getCountryName = (isoCountry: string) => {
+  return regionNames.of(isoCountry);
+};

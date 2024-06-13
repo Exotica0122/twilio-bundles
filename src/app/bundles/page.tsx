@@ -30,10 +30,9 @@ import { ListFilter } from "lucide-react";
 import Link from "next/link";
 import { ActionDropdown } from "./action-dropdown";
 import { CreateBundleModal } from "@/components/create-bundle-modal";
-import { kebabCaseToStartCase } from "@/lib/utils";
+import { getCountryName, kebabCaseToStartCase } from "@/lib/utils";
 
 export default async function Bundles() {
-  const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
   const bundles = await api.bundle.getBundles();
 
   return (
@@ -114,7 +113,7 @@ export default async function Bundles() {
                         </div>
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
-                        {regionNames.of(regulations.isoCountry)}
+                        {getCountryName(regulations.isoCountry)}
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         <span className="capitalize">
