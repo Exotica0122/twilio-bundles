@@ -51,7 +51,7 @@ export const BuyNumberModal = ({ phoneNumber }: { phoneNumber: string }) => {
   const router = useRouter();
   const buyPhoneNumber = api.phoneNumber.buyPhoneNumber.useMutation({
     onError: (error) => {
-      toast(error.message);
+      toast.error(error.message);
     },
   });
 
@@ -72,7 +72,9 @@ export const BuyNumberModal = ({ phoneNumber }: { phoneNumber: string }) => {
     });
 
     setOpen(false);
-    toast(`Successfully created phone number: ${newPhoneNumber.phoneNumber}`);
+    toast.success(
+      `Successfully created phone number: ${newPhoneNumber.phoneNumber}`,
+    );
     router.refresh();
   }
 

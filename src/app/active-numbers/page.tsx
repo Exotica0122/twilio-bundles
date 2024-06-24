@@ -56,7 +56,6 @@ export default async function ActiveNumbers() {
               </TableRow>
             </TableHeader>
             {phoneNumbers.map(async (phoneNumber) => {
-              console.log(phoneNumber);
               return (
                 <TableBody key={phoneNumber.phoneNumber}>
                   <TableRow>
