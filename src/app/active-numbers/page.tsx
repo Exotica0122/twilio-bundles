@@ -53,9 +53,6 @@ export default async function ActiveNumbers() {
                 <TableHead className="hidden md:table-cell">
                   Active Configuration
                 </TableHead>
-                <TableHead>
-                  <span className="sr-only">Buy</span>
-                </TableHead>
               </TableRow>
             </TableHeader>
             {phoneNumbers.map(async (phoneNumber) => {
@@ -87,13 +84,15 @@ export default async function ActiveNumbers() {
                         <Printer className="h-4 w-4" />
                       )}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <span className="capitalize">
-                        {phoneNumber.addressRequirements}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <Button>Buy</Button>
+                    <TableCell className="hidden lg:table-cell">
+                      <div className="flex">
+                        <h3 className="w-24 font-bold">Voice</h3>
+                        <p>{phoneNumber.voiceUrl}</p>
+                      </div>
+                      <div className="flex">
+                        <h3 className="w-24 font-bold">Messaging</h3>
+                        <p>{phoneNumber.smsUrl}</p>
+                      </div>
                     </TableCell>
                   </TableRow>
                 </TableBody>
