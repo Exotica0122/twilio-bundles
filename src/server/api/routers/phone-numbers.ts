@@ -25,6 +25,13 @@ export const phoneNumbersRouter = createTRPCRouter({
       return phoneNumbers;
     }),
 
+  getActivePhoneNumbers: publicProcedure.query(async ({ ctx }) => {
+    const phoneNumbers = await ctx.twilio.incomingPhoneNumbers.list({
+      limit: 20,
+    });
+    return phoneNumbers;
+  }),
+
   getPricing: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -32,5 +39,22 @@ export const phoneNumbersRouter = createTRPCRouter({
         .countries(input)
         .fetch();
       return pricing.toJSON();
+    }),
+
+  buyPhoneNumber: publicProcedure
+    .input(
+      z.object({
+        friendlyName: z.string(),
+        bundleSid: z.string(),
+        phoneNumber: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const newPhoneNumber = await ctx.twilio.incomingPhoneNumbers.create({
+        phoneNumber: input.phoneNumber,
+        friendlyName: input.friendlyName,
+        bundleSid: input.bundleSid,
+      });
+      return newPhoneNumber.toJSON();
     }),
 });

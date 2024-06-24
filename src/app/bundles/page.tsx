@@ -33,7 +33,8 @@ import { CreateBundleModal } from "@/components/create-bundle-modal";
 import { getCountryName, kebabCaseToStartCase } from "@/lib/utils";
 
 export default async function Bundles() {
-  const bundles = await api.bundle.getBundles();
+  const bundlePage = await api.bundle.getBundlePage();
+  const bundles = bundlePage.instances;
 
   return (
     <Tabs defaultValue="all">

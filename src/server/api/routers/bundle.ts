@@ -9,7 +9,17 @@ export const bundleRouter = createTRPCRouter({
     return bundle;
   }),
 
-  getBundles: publicProcedure.query(async ({ ctx }) => {
+  getApprovedBundles: publicProcedure.query(async ({ ctx }) => {
+    const bundles =
+      await ctx.twilio.numbers.v2.regulatoryCompliance.bundles.list({
+        status: "twilio-approved",
+        isoCountry: "GB",
+        numberType: "mobile",
+      });
+    return bundles;
+  }),
+
+  getBundlePage: publicProcedure.query(async ({ ctx }) => {
     const bundles =
       await ctx.twilio.numbers.v2.regulatoryCompliance.bundles.list({
         limit: 20,

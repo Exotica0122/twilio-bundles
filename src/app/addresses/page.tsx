@@ -31,7 +31,6 @@ import Link from "next/link";
 
 export default async function Addresses() {
   const addresses = await api.address.getAddresses();
-  console.log(addresses);
 
   return (
     <Tabs defaultValue="all">

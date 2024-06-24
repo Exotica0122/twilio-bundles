@@ -16,36 +16,17 @@ import {
   Printer,
   SearchIcon,
 } from "lucide-react";
-import { CountrySelect } from "./country-select";
-import type { PricingV1VoiceVoiceCountryInstanceInboundCallPrices } from "twilio/lib/rest/pricing/v1/voice/country";
-import { BuyNumberModal } from "./buy-number-modal";
 
-export default async function PhoneNumbers() {
+export default async function ActiveNumbers() {
   const type = "mobile";
   const isoCountry = "GB";
 
-  const phoneNumbers = await api.phoneNumber.getMobilePhoneNumbers({
-    isoCountry,
-    beta: false,
-    smsEnabled: true,
-    voiceEnabled: true,
-    faxEnabled: true,
-  });
-  const pricing = await api.phoneNumber.getPricing(isoCountry);
-
-  const inboundPriceMap = new Map<
-    string,
-    PricingV1VoiceVoiceCountryInstanceInboundCallPrices
-  >();
-  pricing.inboundCallPrices.forEach((price) => {
-    inboundPriceMap.set(price.number_type, price);
-  });
+  const phoneNumbers = await api.phoneNumber.getActivePhoneNumbers();
 
   return (
     <div className="">
-      <h1 className="text-2xl font-bold">Buy a phone number</h1>
+      <h1 className="text-2xl font-bold">Active Numbers</h1>
       <div className="mt-6 flex items-center">
-        <CountrySelect />
         <div className="ml-auto flex items-center gap-2">
           <Button size="sm" variant="outline" className="h-8 gap-1">
             Reset Filters
@@ -64,16 +45,13 @@ export default async function PhoneNumbers() {
             <TableHeader>
               <TableRow>
                 <TableHead>Number</TableHead>
-                <TableHead>Type</TableHead>
+                <TableHead>Friendly Name</TableHead>
                 <TableHead className="hidden md:table-cell">Voice</TableHead>
                 <TableHead className="hidden md:table-cell">SMS</TableHead>
                 <TableHead className="hidden md:table-cell">MMS</TableHead>
                 <TableHead className="hidden md:table-cell">Fax</TableHead>
                 <TableHead className="hidden md:table-cell">
-                  Address Requirement
-                </TableHead>
-                <TableHead className="hidden md:table-cell">
-                  Monthly fee
+                  Active Configuration
                 </TableHead>
                 <TableHead>
                   <span className="sr-only">Buy</span>
@@ -81,31 +59,26 @@ export default async function PhoneNumbers() {
               </TableRow>
             </TableHeader>
             {phoneNumbers.map(async (phoneNumber) => {
+              console.log(phoneNumber);
               return (
                 <TableBody key={phoneNumber.phoneNumber}>
                   <TableRow>
                     <TableCell className="font-medium">
-                      <h3>{phoneNumber.friendlyName}</h3>
-                      <div className="text-xs text-muted-foreground">
-                        {phoneNumber.region} {phoneNumber.locality}{" "}
-                        {phoneNumber.isoCountry}
-                      </div>
+                      {phoneNumber.phoneNumber}
                     </TableCell>
-                    <TableCell>
-                      <span className="capitalize">{type}</span>
-                    </TableCell>
+                    <TableCell>{phoneNumber.friendlyName}</TableCell>
                     <TableCell className="hidden md:table-cell">
                       {phoneNumber.capabilities.voice && (
                         <Phone className="h-4 w-4" />
                       )}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {phoneNumber.capabilities.SMS && (
+                      {phoneNumber.capabilities.sms && (
                         <MessageSquareText className="h-4 w-4" />
                       )}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {phoneNumber.capabilities.MMS && (
+                      {phoneNumber.capabilities.mms && (
                         <ImageIcon className="h-4 w-4" />
                       )}
                     </TableCell>
@@ -119,11 +92,8 @@ export default async function PhoneNumbers() {
                         {phoneNumber.addressRequirements}
                       </span>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {inboundPriceMap.get(type)?.current_price}
-                    </TableCell>
                     <TableCell>
-                      <BuyNumberModal phoneNumber={phoneNumber.phoneNumber} />
+                      <Button>Buy</Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>
